@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>JANTEX LAB APP</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b2540"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f3f7f8;--card:#fff;--ink:#0b2540;--mut:#5b6f82;--teal:#0e9aa7;--navy:#0b2540;--bd:#d5e0e6;--warn:#fff3c4;--red:#c0392b}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#081a2c;--card:#0f2b45;--ink:#e9f3f6;--mut:#93aabb;--bd:#1f4263;--warn:#5a4b10}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 "Segoe UI",Roboto,system-ui,sans-serif}
+#splash{position:fixed;inset:0;background:linear-gradient(160deg,#0b2540,#0e9aa7);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:99;transition:opacity .8s}
+#splash.off{opacity:0;pointer-events:none}
+.flask{width:90px;height:90px;animation:bob 2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-8px)}}
+.bar{width:180px;height:4px;background:#ffffff40;border-radius:4px;margin:22px 0;overflow:hidden}.bar i{display:block;height:100%;background:#fff;animation:ld 5.5s linear forwards}@keyframes ld{from{width:0}to{width:100%}}
+header{background:var(--navy);color:#fff;padding:14px 14px 12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header h1{margin:0 0 8px;font-size:20px;letter-spacing:.5px}
+#q{width:100%;font-size:18px;padding:13px 14px;border-radius:10px;border:2px solid var(--teal);background:#fff;color:#0b2540}
+nav{display:flex;overflow-x:auto;gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--bd);position:fixed;bottom:0;left:0;right:0;z-index:8}@media print{header,nav,button,.noprint{display:none!important}}.hero{background:linear-gradient(135deg,#0b2540,#0e9aa7);color:#fff;border-radius:16px;padding:16px;margin:10px 0}.hero strong{font-size:30px;display:block}.hero .row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;font-size:12px}.qa{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.qa button{background:var(--card);color:var(--ink);border:1px solid var(--bd);border-radius:12px;padding:14px 4px;font-size:13px}.qa button span{display:block;font-size:24px}
+nav button{white-space:nowrap;border:0;background:none;color:var(--mut);font-size:12px;padding:6px 10px;border-radius:10px;min-width:64px}
+nav button.on{background:var(--teal);color:#fff}
+main{padding:12px 12px 90px;max-width:900px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:10px 0}
+.ln{font-size:24px;font-weight:800}.lno{font-size:22px;font-weight:800;color:var(--teal)}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:14px;margin-top:6px}.g b{display:block;font-size:12px;color:var(--mut);font-weight:600}
+button.b,.b{background:var(--teal);color:#fff;border:0;border-radius:8px;padding:9px 13px;font-size:14px;margin:3px 3px 0 0}
+.b.s{background:var(--navy)}.b.d{background:var(--red)}
+input,select,textarea{font:inherit;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--ink);width:100%}
+label{font-size:12px;color:var(--mut);display:block;margin-top:6px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.unc{background:var(--warn)}.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid var(--bd);padding:3px;min-width:70px}td input{border:0;background:transparent;padding:6px}
+.stat{display:flex;gap:8px;flex-wrap:wrap}.stat div{flex:1;min-width:110px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px}.stat strong{font-size:26px;color:var(--teal);display:block}
+.tag{display:inline-block;background:var(--teal);color:#fff;border-radius:6px;font-size:12px;padding:1px 7px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:8px;display:none;z-index:50}
+header nav{position:static;padding:10px 0 0;background:none;border:0;gap:4px}header nav button{flex:0 0 auto;color:#cfe3ea;font-size:13px;min-width:0;padding:7px 11px;background:#ffffff14}header nav button.on{background:var(--teal);color:#fff}main{padding-bottom:24px}.mut{font-size:13px;color:var(--mut)}.card,main>*{min-width:0}.card select,.card input{margin-top:4px}h3{margin:16px 0 6px}@media(min-width:700px){main{padding:16px 16px 24px}.qa{grid-template-columns:repeat(5,1fr)}}.ph{max-width:100%;border-radius:8px}</style></head><body>
+<div id="splash"><svg class="flask" viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="3"><path d="M24 6h16M27 6v18L10 54a4 4 0 0 0 4 6h36a4 4 0 0 0 4-6L37 24V6"/><path d="M16 44h32" stroke="#7ff"/><circle cx="30" cy="50" r="2" fill="#fff"/><circle cx="38" cy="47" r="2" fill="#fff"/></svg>
+<h1 style="margin:14px 0 4px">JANTEX LAB APP</h1><div style="letter-spacing:3px;font-size:13px">TEXTILE LAB MANAGEMENT SYSTEM</div><div class="bar"><i></i></div>
+<div id="msg" style="font-size:17px;max-width:300px"></div><div style="position:absolute;bottom:30px;font-size:13px;opacity:.85">Created by Kamran_Zahoor</div></div>
+<header><h1>JANTEX LAB APP</h1><input id="q" type="search" placeholder="Search lot name, number, date, sample…" autocomplete="off"></header>
+<nav id="nav"></nav><main id="v"></main><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MSG=["Quality is not an act, it is a habit.","Every test matters. Every detail counts.","Precision creates perfection.","Excellence begins with attention to detail.","Better testing. Better quality. Better results.","Consistency is the key to quality."];
+let n=0;try{n=(+localStorage.getItem("jx_m")||0)%6;localStorage.setItem("jx_m",n+1)}catch(e){n=Math.floor(Math.random()*6)}
+$("#msg").textContent=MSG[n];setTimeout(()=>{$("#splash").classList.add("off")},5500);setTimeout(()=>$("#splash").remove(),6400);
+// ---- IndexedDB ----
+let db;const open=()=>new Promise((res,rej)=>{const r=indexedDB.open("jantex",1);r.onupgradeneeded=()=>{r.result.createObjectStore("lots",{keyPath:"id"});r.result.createObjectStore("audit",{autoIncrement:true})};r.onsuccess=()=>{db=r.result;res()};r.onerror=()=>rej(r.error)});
+const tx=(s,m)=>db.transaction(s,m).objectStore(s);
+const all=()=>new Promise(r=>{const q=tx("lots").getAll();q.onsuccess=()=>r(q.result)});
+const put=(o,act)=>new Promise(r=>{const t=db.transaction(["lots","audit"],"readwrite");t.objectStore("lots").put(o);t.objectStore("audit").add({at:new Date().toISOString(),act,lot:o.id,snap:JSON.stringify(o)});t.oncomplete=r});
+const del=id=>new Promise(r=>{const t=tx("lots","readwrite").delete(id);t.onsuccess=r});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2500)};
+let tab="dash",L=[];
+const TABS={dash:"🏠 Home",reg:"📒 Register",scan:"📷 Scan",test:"🧪 Physical Lab",att:"👥 Attendance",ana:"📊 Analytics",bin:"🗑 Bin",back:"💾 Backup",set:"⚙ Settings"};
+$("#nav").innerHTML=Object.entries(TABS).map(([k,v])=>`<button data-t="${k}">${v}</button>`).join("");
+$("header").append($("#nav"));$("#nav").onclick=e=>{if(e.target.dataset.t){tab=e.target.dataset.t;$("#q").value="";try{history.pushState({t:tab},"")}catch(x){}render()}};
+$("#q").oninput=()=>render();
+const live=()=>L.filter(x=>!x.deleted);
+// ---- Lot card ----
+function lotCard(l,full){const R=l.reports||[];
+return `<div class="card"><div class="ln">${esc(l.name)}</div><div class="lno">${esc(l.no)}</div>
+<div class="g"><div><b>TOTAL COLORS</b>${esc(l.total)||"—"}</div><div><b>COLORS RECEIVED</b>${esc(l.recv)||"—"}</div>
+<div><b>REGISTER ENTRY DATE</b>${esc(l.date)}</div><div><b>QUALITY</b>${esc(l.quality)||"—"}</div></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--mut)">REPORTS (${R.length})</b>${R.length?R.map((r,i)=>`<div class="g" style="border-top:1px dashed var(--bd);padding-top:4px"><div><b>REPORT DATE</b>${esc(r.date)}</div><div><b>REPORT COLORS</b>${esc(r.colors)}</div>${full?`<div><b>REF</b>${esc(r.ref)||"—"}</div><div><b>REMARKS</b>${esc(r.rem)||"—"}</div><div><button class="b s" onclick="editRep('${l.id}',${i})">Edit</button><button class="b d" onclick="delRep('${l.id}',${i})">Delete</button></div>`:""}</div>`).join(""):'<div style="color:var(--mut);font-size:14px">No report yet (pending)</div>'}</div>
+${l.notes?`<div style="font-size:13px;color:var(--mut)">${esc(l.notes)}</div>`:""}
+<div><button class="b" onclick="addRep('${l.id}')">+ Report</button><button class="b s" onclick="editLot('${l.id}')">Edit</button><button class="b s" onclick="dup('${l.id}')">Duplicate</button>${l.photo?`<button class="b s" onclick="pic('${l.id}')">Photo</button>`:""}<button class="b s" onclick="share('${l.id}',1)">Share</button><button class="b s" onclick="share('${l.id}',0)">Share name/no.</button><button class="b d" onclick="rm('${l.id}')">Delete</button></div></div>`}
+// ---- Views ----
+function render(){document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==tab&&!$("#q").value));
+const q=$("#q").value.trim().toLowerCase();if(q)return search(q);
+({dash:dash2,reg,scan,bin,back,att,test,ana,set})[tab]()}
+function search(q){const r=live().filter(l=>[l.name,l.no,l.date,...(l.reports||[]).flatMap(x=>[x.date,x.ref,x.sample])].join(" ").toLowerCase().includes(q)).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+$("#v").innerHTML=`<b>${r.length} result(s) across all records</b>`+r.map(l=>lotCard(l,1)).join("")}
+function dash(){const a=live(),pend=a.filter(l=>!(l.reports||[]).length).length;
+$("#v").innerHTML=`<div class="stat"><div><strong>${a.length}</strong>Lots</div><div><strong>${a.reduce((s,l)=>s+(+l.total||0),0)}</strong>Total colors</div><div><strong>${a.reduce((s,l)=>s+(+l.recv||0),0)}</strong>Colors received</div><div><strong>${pend}</strong>Pending reports</div></div>
+<div class="card"><button class="b" onclick="tab='scan';render()">Scan register photo</button><button class="b s" onclick="editLot()">Add lot</button><button class="b s" onclick="seed()">Load rows read from photo</button></div>
+<b>Latest lots</b>${a.sort((x,y)=>y.created-x.created).slice(0,5).map(l=>lotCard(l)).join("")||'<div class="card">No lots yet. Add one or scan a register page.</div>'}
+<p style="font-size:12px;color:var(--mut)">Attendance, physical tests and analytics export are not built yet. Created by Kamran_Zahoor</p>`}
+function reg(){const a=live(),days=[...new Set(a.map(l=>l.date))].sort().reverse();
+$("#v").innerHTML=`<button class="b" onclick="editLot()">+ Add lot</button>`+days.map(d=>{const g=a.filter(l=>l.date==d);return `<h3>${esc(d)} <span class="tag">${g.length} lots</span> <button class="b d" onclick="rmDay('${d}')">Delete day</button></h3>`+g.map(l=>lotCard(l)).join("")}).join("")}
+function bin(){const a=L.filter(l=>l.deleted);$("#v").innerHTML=a.map(l=>`<div class="card"><div class="ln">${esc(l.name)}</div><div class="lno">${esc(l.no)}</div><button class="b" onclick="restore('${l.id}')">Restore</button><button class="b d" onclick="perm('${l.id}')">Delete forever</button></div>`).join("")||'<div class="card">Recycle bin is empty.</div>'}
+function back(){$("#v").innerHTML=`<div class="card"><b>Backup</b><p>Saved on this device only (IndexedDB). Export regularly.</p><button class="b" onclick="exp()">Export JSON</button><button class="b s" onclick="csv()">Export CSV</button><button class="b s" onclick="xls()">Export Excel</button><button class="b s" onclick="aud()">Edit history</button><label>Restore JSON backup</label><input type="file" accept=".json" onchange="imp(this.files[0])"></div>`}
+// ---- Lot form ----
+function dlg(html){let d=$("#dlg");if(!d){d=document.createElement("div");d.id="dlg";d.style.cssText="position:fixed;inset:0;background:#000a;z-index:20;overflow:auto;padding:12px;padding-top:calc(12px + env(safe-area-inset-top,0px))";document.body.append(d)}
+d.innerHTML=`<div class="card" style="max-width:520px;margin:auto">${html}</div>`;d.style.display="block"}
+const closeD=()=>{$("#dlg").style.display="none"};
+window.editLot=id=>{const l=L.find(x=>x.id==id)||{date:new Date().toISOString().slice(0,10)};
+dlg(`<b>${id?"Edit":"Add"} lot</b><label>Register entry date</label><input id="f_date" type="date" value="${l.date}"><label>Lot name</label><input id="f_name" value="${esc(l.name)}"><label>Lot number</label><input id="f_no" value="${esc(l.no)}">
+<div class="f2"><div><label>Total colors</label><input id="f_total" type="number" value="${esc(l.total)}"></div><div><label>Colors received</label><input id="f_recv" type="number" value="${esc(l.recv)}"></div></div><label>Quality</label><input id="f_q" value="${esc(l.quality)}"><label>Notes</label><textarea id="f_n">${esc(l.notes)}</textarea><label>Original register photo</label><input id="f_p" type="file" accept="image/*">
+<button class="b" onclick="saveLot('${id||""}')">Save</button><button class="b s" onclick="closeD()">Cancel</button>`)};
+window.closeD=closeD;
+window.saveLot=async id=>{const g=k=>$("#f_"+k).value.trim();const o=L.find(x=>x.id==id)||{id:uid(),created:Date.now(),reports:[]};
+const nm=g("name").toUpperCase(),no=g("no").toUpperCase();if(!nm||!no)return toast("Lot name and number are required");
+const d=L.find(x=>!x.deleted&&x.id!=o.id&&x.no==no&&x.date==g("date"));if(d&&!confirm("Duplicate: lot "+no+" already exists on this date. Save anyway?"))return;
+Object.assign(o,{date:g("date"),name:nm,no,total:g("total"),recv:g("recv"),quality:g("q"),notes:g("n")});
+const f=$("#f_p").files[0];if(f)o.photo=await toURL(f);
+await put(o,id?"edit":"add");await load();closeD();toast("Saved");render()};
+const toURL=f=>new Promise(r=>{const fr=new FileReader;fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
+window.dup=async id=>{const l=JSON.parse(JSON.stringify(L.find(x=>x.id==id)));l.id=uid();l.reports=[];l.created=Date.now();await put(l,"duplicate");await load();toast("Duplicated");render()};
+window.rm=async id=>{const l=L.find(x=>x.id==id);if(!confirm(`Delete ${l.name} ${l.no}?\nIt has ${(l.reports||[]).length} report(s). It moves to Recycle Bin.`))return;l.deleted=1;await put(l,"delete");await load();render()};
+window.restore=async id=>{const l=L.find(x=>x.id==id);delete l.deleted;await put(l,"restore");await load();render()};
+window.perm=async id=>{if(confirm("Delete permanently? This cannot be undone.")){await del(id);await load();render()}};
+window.rmDay=async d=>{const g=live().filter(l=>l.date==d),r=g.reduce((s,l)=>s+(l.reports||[]).length,0);if(!confirm(`Delete register of ${d}?\nAffects ${g.length} lots, ${r} reports, ${g.filter(l=>l.photo).length} photos.\nThey go to the Recycle Bin.`))return;for(const l of g){l.deleted=1;await put(l,"delete-day")}await load();render()};
+// ---- Reports ----
+window.addRep=id=>repForm(id,-1);window.editRep=(id,i)=>repForm(id,i);
+function repForm(id,i){const r=(L.find(x=>x.id==id).reports||[])[i]||{date:new Date().toISOString().slice(0,10)};
+dlg(`<b>${i<0?"Add":"Edit"} report</b><label>Report date</label><input id="r_d" type="date" value="${r.date}"><label>Report colors</label><input id="r_c" type="number" value="${esc(r.colors)}"><label>Reference no. (optional)</label><input id="r_r" value="${esc(r.ref)}"><label>Quality</label><input id="r_q" value="${esc(r.quality)}"><label>Remarks</label><textarea id="r_m">${esc(r.rem)}</textarea><label>Report photo</label><input id="r_p" type="file" accept="image/*">
+<button class="b" onclick="saveRep('${id}',${i})">Save</button><button class="b s" onclick="closeD()">Cancel</button>`)}
+window.saveRep=async(id,i)=>{const l=L.find(x=>x.id==id);l.reports=l.reports||[];const o=i<0?{}:l.reports[i];
+Object.assign(o,{date:$("#r_d").value,colors:$("#r_c").value,ref:$("#r_r").value,quality:$("#r_q").value,rem:$("#r_m").value});const f=$("#r_p").files[0];if(f)o.photo=await toURL(f);
+if(i<0)l.reports.push(o);await put(l,i<0?"add-report":"edit-report");await load();closeD();render()};
+window.delRep=async(id,i)=>{if(!confirm("Delete this report only?"))return;const l=L.find(x=>x.id==id);l.reports.splice(i,1);await put(l,"delete-report");await load();render()};
+// ---- Share ----
+window.share=(id,full)=>{const l=L.find(x=>x.id==id);let t=`Lot Name: ${l.name}\nLot Number: ${l.no}`;
+if(full){t+=`\nTotal Colors: ${l.total||"-"}\nColors Received: ${l.recv||"-"}\nRegister Date: ${l.date}\nQuality: ${l.quality||"-"}`+(l.reports||[]).map(r=>`\nReport ${r.date}: ${r.colors} colors`).join("")}
+t+="\n— JANTEX LAB APP";if(navigator.share)navigator.share({text:t}).catch(()=>{});else navigator.clipboard.writeText(t).then(()=>toast("Copied to clipboard"))};
+// ---- Backup ----
+const dl=(n,t,m)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;a.click()};
+window.exp=()=>dl("jantex-backup.json",JSON.stringify(L),"application/json");
+window.csv=()=>{const rows=[["Lot Name","Lot Number","Total Colors","Colors Received","Register Date","Report Date","Report Colors","Quality"]];
+live().forEach(l=>{const R=l.reports?.length?l.reports:[{}];R.forEach(r=>rows.push([l.name,l.no,l.total,l.recv,l.date,r.date||"",r.colors||"",l.quality]))});
+dl("jantex.csv",rows.map(r=>r.map(c=>'"'+String(c??"").replace(/"/g,'""')+'"').join(",")).join("\n"),"text/csv")};
+window.imp=async f=>{try{const a=JSON.parse(await f.text());for(const l of a)await put(l,"restore-backup");await load();toast(a.length+" lots restored");render()}catch(e){toast("Invalid backup file")}};
+/* ---- Scanner: pick > edit image > AI extract > review > save ---- */
+const E0=()=>({rot:0,str:0,br:0,ct:0,cl:0,l:0,r:0,t:0,b:0});let IM=null,ED=E0(),FIN=null,ROWS=[],raf;
+const blankRow=()=>({date:today(),no:'',name:'',total:'',recv:'',rdate:'',quality:'',u:{}});
+function scan(){FIN=null;ROWS=[];IM=null;$('#v').innerHTML=`<div class="card"><b>Register scanner</b><p class="mut">Take or choose a photo, adjust it, confirm, then AI reads it. You review everything before saving.</p><input id="cam" type="file" accept="image/*" capture="environment" hidden><input id="gal" type="file" accept="image/*" hidden><button class="b" onclick="$('#cam').click()">📷 Open Camera</button><button class="b s" onclick="$('#gal').click()">🖼 Open Gallery</button><button class="b s" onclick="ROWS=[blankRow()];showRev()">Enter manually</button><div id="ed"></div><div id="rev"></div></div>`;$('#cam').onchange=$('#gal').onchange=e=>pick(e.target.files[0])}
+async function pick(f){if(!f)return;IM=new Image;IM.src=await toURL(f);await IM.decode();ED=E0();FIN=null;$('#rev').innerHTML='';edUI()}
+const SL=[['str','Straighten °',-15,15,.5],['br','Brightness',-80,80,1],['ct','Contrast',-50,80,1],['cl','Clarity',0,100,1],['l','Crop left %',0,40,1],['r','Crop right %',0,40,1],['t','Crop top %',0,40,1],['b','Crop bottom %',0,40,1]];
+function edUI(){$('#ed').innerHTML=`<canvas id="cv" style="width:100%;border:1px solid var(--bd);border-radius:8px;margin-top:8px"></canvas><div><button class="b s" onclick="ED.rot=(ED.rot+270)%360;draw()">⟲ 90°</button><button class="b s" onclick="ED.rot=(ED.rot+90)%360;draw()">⟳ 90°</button><button class="b s" onclick="ED=E0();edUI()">Reset</button></div>`+SL.map(([k,n,a,b,s])=>`<label>${n}</label><input type="range" min="${a}" max="${b}" step="${s}" value="${ED[k]}" oninput="ED.${k}=+this.value;draw()">`).join('')+`<button class="b" onclick="confirmImg()">✔ Confirm image</button>`;draw()}
+function draw(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>paint($('#cv')))}
+function paint(cv){const sc=Math.min(1,1600/Math.max(IM.width,IM.height)),w=IM.width*sc,h=IM.height*sc,sw=ED.rot%180?h:w,sh=ED.rot%180?w:h,t=document.createElement('canvas');t.width=sw;t.height=sh;const c=t.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,sw,sh);c.translate(sw/2,sh/2);c.rotate((ED.rot+ED.str)*Math.PI/180);c.drawImage(IM,-w/2,-h/2,w,h);
+const x=sw*ED.l/100,y=sh*ED.t/100,cw=Math.max(20,sw*(1-(ED.l+ED.r)/100)),ch=Math.max(20,sh*(1-(ED.t+ED.b)/100));cv.width=cw;cv.height=ch;const g=cv.getContext('2d');g.drawImage(t,x,y,cw,ch,0,0,cw,ch);
+const d=g.getImageData(0,0,cw,ch),p=d.data,k=1+ED.ct/100;for(let i=0;i<p.length;i+=4)for(let j=0;j<3;j++)p[i+j]=(p[i+j]-128)*k+128+ED.br;
+if(ED.cl>0){const a=ED.cl/100*1.5,s=new Uint8ClampedArray(p),W=cw*4;for(let yy=1;yy<ch-1;yy++)for(let xx=4;xx<W-4;xx++){const i=yy*W+xx;p[i]=s[i]*(1+4*a)-a*(s[i-4]+s[i+4]+s[i-W]+s[i+W])}}g.putImageData(d,0,0)}
+window.confirmImg=()=>{FIN=$('#cv').toDataURL('image/jpeg',.82);$('#ed').innerHTML=`<img class="ph" src="${FIN}"><div>✔ Image confirmed. It will be saved with the records.</div><button class="b" onclick="extract()">🤖 Extract data (AI)</button><button class="b s" onclick="edUI()">Edit image again</button>`};
+const AIP=`This is a photo of a handwritten textile lab register page. Layout: LOT NUMBER column (like A-2726, J-4460, may be combined like J-4431+32+33), LOT NAME next to it; a date heading such as 14-10-26 applies to the rows below it until the next date heading. On the right: TOTAL COLORS, then a received-colors number with a small dd/mm date (the report date), then QUALITY text. Return ONLY a JSON array, one object per lot row, with keys: register_date (YYYY-MM-DD from the heading above the row), lot_number, lot_name, total_colors, received_colors, report_date (YYYY-MM-DD, use the register year, empty if absent), quality, uncertain (array of key names you are unsure about). Use "" for anything missing or unreadable. Never guess or invent values. Keep values like 4+4+5 exactly as written.`;
+const KM={register_date:'date',lot_number:'no',lot_name:'name',total_colors:'total',received_colors:'recv',report_date:'rdate',quality:'quality'};
+const norm=r=>({date:r.register_date||'',no:String(r.lot_number||'').toUpperCase(),name:String(r.lot_name||'').toUpperCase(),total:String(r.total_colors??''),recv:String(r.received_colors??''),rdate:r.report_date||'',quality:r.quality||'',u:Object.fromEntries((r.uncertain||[]).map(k=>[KM[k]||k,1]))});
+window.extract=async()=>{const key=ls('jx_key'),mod=ls('jx_mod')||'gemini-4-hydrogen';if(!key)return toast('Add your free Gemini API key in Settings first');$('#rev').innerHTML='Reading register with AI… (can take up to a minute)';
+try{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mod}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{parts:[{text:AIP},{inline_data:{mime_type:'image/jpeg',data:FIN.split(',')[1]}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}})});const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+ROWS=JSON.parse(j.candidates[0].content.parts.map(p=>p.text||'').join('').replace(/```json|```/g,'')).map(norm)}catch(e){$('#rev').innerHTML=`<div class="card unc">AI extraction failed: ${esc(e.message)}. Nothing was saved. You can use Enter manually.</div>`;return}showRev()};
+const FL=[['date','Register date','date'],['name','Lot name'],['no','Lot no.'],['total','Total'],['recv','Received'],['rdate','Report date','date'],['quality','Quality']];
+function showRev(){$('#rev').innerHTML=`<h3>Review ${ROWS.length} row(s) <small>yellow = please check</small></h3><div class="tbl"><table><tr>${FL.map(f=>`<th>${f[1]}</th>`).join('')}<th></th></tr>`+ROWS.map((r,i)=>`<tr>`+FL.map(([k,,t])=>`<td class="${r.u[k]||(!r[k]&&'date name no'.split(' ').includes(k))?'unc':''}"><input ${t?`type="${t}"`:''} style="min-width:${t?135:90}px" value="${esc(r[k])}" onchange="ROWS[${i}].${k}=this.value;this.parentNode.classList.remove('unc')"></td>`).join('')+`<td><button class="b d" onclick="ROWS.splice(${i},1);showRev()">✕</button></td></tr>`).join('')+`</table></div><button class="b s" onclick="ROWS.push(blankRow());showRev()">+ Row</button><button class="b" onclick="saveRows()">Confirm &amp; save to Records</button>`}
+window.saveRows=async()=>{if(!ROWS.length)return toast('No rows');if(ROWS.some(r=>!r.no.trim()||!r.name.trim()||!r.date))return toast('Each row needs date, lot name and lot number');let n=0;const sk=[];
+for(const r of ROWS){const no=r.no.trim().toUpperCase();if(L.some(l=>l.no==no&&l.date==r.date)){sk.push(no);continue}await put({id:uid(),created:Date.now(),date:r.date,name:r.name.trim().toUpperCase(),no,total:r.total,recv:r.recv,quality:r.quality,photo:FIN||undefined,notes:'Scanned from register photo',reports:r.rdate?[{date:r.rdate,colors:'',ref:'',rem:''}]:[]},'scan');L.push({no,date:r.date});n++}
+await load();toast(n+' saved'+(sk.length?'; duplicates skipped: '+sk.join(', '):''));tab='reg';render()};
+let RAW=[],X={};
+const ls=k=>{try{return localStorage.getItem(k)}catch(e){return null}},today=()=>new Date().toISOString().slice(0,10);
+const load=async()=>{RAW=await all();X={};RAW.forEach(o=>{if(String(o.id).startsWith('cfg:'))X[o.id.slice(4)]=o});L=RAW.filter(o=>!String(o.id).startsWith('cfg:'))};
+const saveX=o=>new Promise(r=>{const q=tx('lots','readwrite').put(o);q.onsuccess=()=>load().then(r)});
+window.exp=()=>dl('jantex-backup.json',JSON.stringify(RAW),'application/json');
+function dash2(){const a=live(),pend=a.filter(l=>!(l.reports||[]).length).length;
+$('#v').innerHTML=`<div class="hero"><div style="opacity:.8">Today ${today()}</div><div class="row"><div><strong>${a.length}</strong>Lots</div><div><strong>${a.reduce((s,l)=>s+(+l.total||0),0)}</strong>Total colors</div><div><strong>${a.reduce((s,l)=>s+(+l.recv||0),0)}</strong>Received</div><div><strong>${pend}</strong>Pending</div></div></div>
+<div class="qa"><button onclick="editLot()"><span>➕</span>Add lot</button><button onclick="tab='scan';render()"><span>📷</span>Scan register</button><button onclick="tab='att';render()"><span>👥</span>Attendance</button><button onclick="tab='test';render()"><span>🧪</span>Physical test</button><button onclick="tab='ana';render()"><span>📊</span>Analytics</button></div>
+<h3>Latest lots</h3>${[...a].sort((x,y)=>y.created-x.created).slice(0,5).map(l=>lotCard(l)).join('')||'<div class="card">No lots yet. Tap Photo rows to load the register data.</div>'}<p style="font-size:12px;color:var(--mut)">Created by Kamran_Zahoor</p>`}
+window.pic=id=>dlg(`<img class="ph" src="${L.find(x=>x.id==id).photo}"><button class="b s" onclick="closeD()">Close</button>`);
+const tbl=r=>'<table>'+r.map(x=>'<tr>'+x.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</table>';
+window.xls=()=>{const rows=[['Lot Name','Lot Number','Total Colors','Colors Received','Register Date','Report Date','Report Colors','Quality']];live().forEach(l=>{(l.reports?.length?l.reports:[{}]).forEach(r=>rows.push([l.name,l.no,l.total,l.recv,l.date,r.date||'',r.colors||'',l.quality]))});dl('jantex.xls','<meta charset="utf-8">'+tbl(rows),'application/vnd.ms-excel')};
+window.aud=()=>{const q=tx('audit').getAll();q.onsuccess=()=>dlg('<b>Edit history (latest 40)</b>'+q.result.slice(-40).reverse().map(a=>{let s={};try{s=JSON.parse(a.snap)}catch(e){}return `<div style="border-top:1px solid var(--bd);padding:4px 0;font-size:13px"><b>${esc(a.act)}</b> ${esc(s.name)||''} ${esc(s.no)||''}<br>${esc(a.at.replace('T',' ').slice(0,19))}</div>`}).join('')+'<button class="b s" onclick="closeD()">Close</button>')};
+/* ---- Attendance ---- */
+const ST=['Present','Absent','Half Day','Holiday','Weekly Off','Paid Leave','Unpaid Leave','Public Holiday'];let ad=today();
+const AT=()=>X.att||(X.att={id:'cfg:att',emps:[],days:{},hol:{},off:[0]});
+const eff=(e,d)=>{const a=AT(),r=(a.days[d]||{})[e];if(r)return r;if(a.hol[d])return 'Holiday';return a.off.includes(new Date(d+'T00:00').getDay())?'Weekly Off':''};
+function att(){const a=AT();$('#v').innerHTML=`<div class="card"><label>Date</label><input type="date" value="${ad}" onchange="ad=this.value;att()"><button class="b" onclick="addEmp()">+ Employee</button><button class="b s" onclick="dayAll('Holiday')">Whole day Holiday</button><button class="b s" onclick="dayAll('Weekly Off')">Whole day Weekly Off</button></div>`+(a.emps.map(e=>`<div class="card"><b style="font-size:18px">${esc(e.name)}</b><select onchange="setS('${e.id}',this.value)"><option value="">— not marked —</option>${ST.map(s=>`<option ${eff(e.id,ad)==s?'selected':''}>${s}</option>`).join('')}</select><button class="b s" onclick="renEmp('${e.id}')">Rename</button><button class="b d" onclick="delEmp('${e.id}')">Remove</button></div>`).join('')||'<div class="card">Add employees first.</div>')+attMonth()}
+function attMonth(){const a=AT(),m=ad.slice(0,7),nd=new Date(+m.slice(0,4),+m.slice(5),0).getDate();let rows=a.emps.map(e=>{const c={};let w=0;for(let i=1;i<=nd;i++){const s=eff(e.id,m+'-'+String(i).padStart(2,'0'));c[s]=(c[s]||0)+1;if(!['Holiday','Weekly Off','Public Holiday'].includes(s))w++}const p=(c['Present']||0)+.5*(c['Half Day']||0);return `<tr><td>${esc(e.name)}</td><td>${c['Present']||0}</td><td>${c['Absent']||0}</td><td>${c['Half Day']||0}</td><td>${(c['Paid Leave']||0)+(c['Unpaid Leave']||0)}</td><td>${(c['Holiday']||0)+(c['Public Holiday']||0)}</td><td>${c['Weekly Off']||0}</td><td>${w}</td><td><b>${w?Math.round(p/w*100):0}%</b></td></tr>`}).join('');return `<h3>Monthly ${m}</h3><div class="tbl"><table><tr><th>Name</th><th>P</th><th>A</th><th>Half</th><th>Leave</th><th>Hol</th><th>Off</th><th>Work days</th><th>%</th></tr>${rows}</table></div><p style="font-size:12px;color:var(--mut)">Holidays and weekly offs are not counted as absences. Half Day counts 0.5.</p>`}
+window.addEmp=async()=>{const n=prompt('Employee name');if(!n)return;AT().emps.push({id:uid(),name:n.trim()});await saveX(AT());att()};
+window.renEmp=async id=>{const e=AT().emps.find(x=>x.id==id),n=prompt('Name',e.name);if(n){e.name=n;await saveX(AT());att()}};
+window.delEmp=async id=>{if(!confirm('Remove employee? Past attendance stays stored.'))return;AT().emps=AT().emps.filter(x=>x.id!=id);await saveX(AT());att()};
+window.setS=async(id,v)=>{const a=AT();a.days[ad]=a.days[ad]||{};if(v)a.days[ad][id]=v;else delete a.days[ad][id];await saveX(AT());att()};
+window.dayAll=async s=>{const a=AT();a.days[ad]={};a.emps.forEach(e=>a.days[ad][e.id]=s);if(s=='Holiday')a.hol[ad]='Holiday';await saveX(a);att()};
+/* ---- Physical tests ---- */
+const TT=['Pilling','Rubbing','Washing','Color Fastness','GSM / Weight','Jet','Jigger'];
+function test(){const T=(X.tests||{list:[]}).list;const q=($('#tq')||{value:''}).value.toLowerCase();
+$('#v').innerHTML=`<div class="card"><b>New test record</b><div class="f2"><div><label>Date</label><input id="t_d" type="date" value="${today()}"></div><div><label>Test</label><select id="t_t">${TT.map(t=>`<option>${t}</option>`).join('')}</select></div><div><label>Lot number</label><input id="t_n"></div><div><label>Sample number</label><input id="t_s"></div></div><label>Lot name</label><input id="t_l"><div class="f2"><div><label>Machine</label><input id="t_m"></div><div><label>Technician</label><input id="t_x"></div></div><label>Result</label><select id="t_r"><option>Pending</option><option>Pass</option><option>Fail</option></select><label>Remarks</label><input id="t_k"><button class="b" onclick="addT()">Save test</button></div><input id="tq" placeholder="Filter tests…" value="${esc(q)}" oninput="test()">`+T.map((t,i)=>({t,i})).filter(({t})=>JSON.stringify(t).toLowerCase().includes(q)).reverse().map(({t,i})=>`<div class="card"><div class="ln">${esc(t.lot)}</div><div class="lno">${esc(t.no)} <span class="tag">${esc(t.type)}</span></div><div class="g"><div><b>DATE</b>${t.date}</div><div><b>SAMPLE</b>${esc(t.sample)||'—'}</div><div><b>MACHINE</b>${esc(t.mach)||'—'}</div><div><b>TECH</b>${esc(t.tech)||'—'}</div></div><div>${esc(t.rem)}</div><select onchange="setT(${i},this.value)">${['Pending','Pass','Fail'].map(r=>`<option ${t.res==r?'selected':''}>${r}</option>`).join('')}</select><button class="b d" onclick="delT(${i})">Delete</button></div>`).join('')}
+window.addT=async()=>{const g=k=>$('#t_'+k).value.trim();if(!g('n')&&!g('l'))return toast('Enter lot number or name');const o=X.tests||(X.tests={id:'cfg:tests',list:[]});o.list.push({date:g('d'),type:g('t'),no:g('n').toUpperCase(),sample:g('s'),lot:g('l').toUpperCase(),mach:g('m'),tech:g('x'),res:g('r'),rem:g('k')});await saveX(o);toast('Saved');test()};
+window.setT=async(i,v)=>{X.tests.list[i].res=v;await saveX(X.tests);test()};
+window.delT=async i=>{if(!confirm('Delete this test record?'))return;X.tests.list.splice(i,1);await saveX(X.tests);test()};
+/* ---- Analytics ---- */
+function ana(){const a=live(),M={};a.forEach(l=>{const m=(l.date||'').slice(0,7),o=M[m]||(M[m]={l:0,t:0,r:0,rc:0,p:0});o.l++;o.t+=+l.total||0;o.r+=+l.recv||0;o.rc+=(l.reports||[]).reduce((s,r)=>s+(+r.colors||0),0);if(!(l.reports||[]).length)o.p++});const T=(X.tests||{list:[]}).list,c=k=>T.filter(t=>t.res==k).length;
+$('#v').innerHTML=`<div class="tbl"><table><tr><th>Month</th><th>Lots</th><th>Total colors</th><th>Received</th><th>Report colors</th><th>Pending</th></tr>${Object.keys(M).sort().reverse().map(k=>`<tr><td>${k}</td><td>${M[k].l}</td><td>${M[k].t}</td><td>${M[k].r}</td><td>${M[k].rc}</td><td>${M[k].p}</td></tr>`).join('')}</table></div><div class="card"><b>Physical tests</b><br>Pass ${c('Pass')} · Fail ${c('Fail')} · Pending ${c('Pending')}</div><div class="noprint"><button class="b" onclick="print()">Print / Save as PDF</button><button class="b s" onclick="csv()">CSV (opens in Excel)</button></div>`}
+/* ---- Settings ---- */
+function set(){const a=AT(),D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];$('#v').innerHTML=`<div class="card"><b>Theme</b><select onchange="theme(this.value)"><option value="">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></div><div class="card"><b>AI register reading (Gemini, free tier)</b><p class="mut">Free key from aistudio.google.com. Saved only on this device. Photos you extract are sent to Google.</p><input id="gk" type="password" placeholder="API key" value="${esc(ls('jx_key')||'')}"><label>Model</label><input id="gm" value="${esc(ls('jx_mod')||'gemini-4-hydrogen')}"><button class="b" onclick="try{localStorage.setItem('jx_key',$('#gk').value.trim());localStorage.setItem('jx_mod',$('#gm').value.trim()||'gemini-4-hydrogen');toast('Saved')}catch(e){toast('Storage blocked')}">Save</button></div>
+<div class="card"><b>App PIN</b><p style="font-size:13px;color:var(--mut)">Simple lock screen. Not strong encryption.</p><input id="pin" type="password" inputmode="numeric" placeholder="New PIN (empty = remove)"><button class="b" onclick="try{pin.value?localStorage.setItem('jx_pin',pin.value):localStorage.removeItem('jx_pin');toast('PIN updated')}catch(e){toast('Storage blocked')}">Save PIN</button></div><div class="card"><b>Weekly off days</b><br>${D.map((d,i)=>`<label style="display:inline-block;margin-right:10px"><input type="checkbox" style="width:auto" ${a.off.includes(i)?'checked':''} onchange="wk(${i},this.checked)"> ${d}</label>`).join('')}</div><div class="card"><b>Storage</b><div id="su">${L.length} lots</div></div><p style="font-size:12px;color:var(--mut)">JANTEX LAB APP · Created by Kamran_Zahoor</p>`;navigator.storage&&navigator.storage.estimate&&navigator.storage.estimate().then(e=>{$('#su').textContent=L.length+' lots · '+Math.round(e.usage/1024)+' KB used'})}
+window.theme=v=>{v?document.documentElement.dataset.theme=v:delete document.documentElement.dataset.theme;try{localStorage.setItem('jx_th',v)}catch(e){}};
+window.wk=async(i,on)=>{const a=AT();a.off=on?[...new Set([...a.off,i])]:a.off.filter(x=>x!=i);await saveX(a)};
+function lock(){const p=ls('jx_pin');if(!p)return;const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#0b2540;z-index:98;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff';o.innerHTML='<h2>Enter PIN</h2><input type=password inputmode=numeric style="width:160px;text-align:center">';document.body.append(o);o.querySelector('input').oninput=e=>{if(e.target.value==p)o.remove()}}
+if(ls('jx_th'))document.documentElement.dataset.theme=ls('jx_th');
+if("serviceWorker" in navigator)navigator.serviceWorker.register("service-worker.js");
+onpopstate=e=>{tab=(e.state&&e.state.t)||"dash";render()};open().then(load).then(()=>{lock();render()});
+</script></body></html>
